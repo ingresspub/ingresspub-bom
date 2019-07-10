@@ -22,18 +22,50 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ingresspub</groupId>
+    <groupId>pub.ingress</groupId>
     <artifactId>ingresspub-bom</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <name>ingresspub-bom</name>
+    <description>Used to control the versions of a project's dependencies and provide a central place to define and update those versions.</description>
+    <url>https://github.com/ingresspub/ingresspub-bom</url>
+    <licenses>
+        <license>
+            <name>GNU General Public License (GPL)</name>
+            <url>http://www.gnu.org/licenses/gpl.txt</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:git@github.com:ingresspub/ingresspub-bom.git</connection>
+        <developerConnection>scm:git:git@github.com:ingresspub/ingresspub-bom.git</developerConnection>
+        <url>https://github.com/ingresspub/ingresspub-bom</url>
+        <tag>HEAD</tag>
+    </scm>
+    <developers>
+        <developer>
+            <id>sgralpha</id>
+            <name>SgrAlpha</name>
+        </developer>
+    </developers>
+
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <dep.guava.version>27.1-jre</dep.guava.version>
+        <dep.jackson.version>2.9.8</dep.jackson.version>
         <dep.jwt.version>0.9.1</dep.jwt.version>
+
+        <!-- For http/rest -->
         <dep.retrofit.version>2.5.0</dep.retrofit.version>
         <dep.okhttp.version>3.13.1</dep.okhttp.version>
-        <dep.jackson.version>2.9.8</dep.jackson.version>
+
+        <!-- For logging -->
         <dep.slf4j.version>1.7.25</dep.slf4j.version>
         <dep.log4j2.version>2.11.2</dep.log4j2.version>
+        <dep.commons-logging.version>1.2</dep.commons-logging.version>
+
+        <!-- For tests -->
         <dep.junit.version>4.12</dep.junit.version>
         <dep.mockito.version>2.17.0</dep.mockito.version>
     </properties>
@@ -68,6 +100,11 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${dep.guava.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>${dep.jwt.version}</version>
@@ -76,6 +113,23 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${dep.slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${dep.slf4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${dep.slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>${dep.commons-logging.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
@@ -98,5 +152,72 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Nexus Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <profiles>
+        <profile>
+            <id>release-oss</id>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>3.1.1</version>
+                            <configuration>
+                                <skip>false</skip>
+                                <failOnError>true</failOnError>
+                                <encoding>${project.build.sourceEncoding}</encoding>
+                                <additionalparam>-quiet</additionalparam>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-gpg-plugin</artifactId>
+                            <version>1.6</version>
+                            <executions>
+                                <execution>
+                                    <id>sign-artifacts</id>
+                                    <phase>verify</phase>
+                                    <goals>
+                                        <goal>sign</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-deploy-plugin</artifactId>
+                            <version>3.0.0-M1</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-release-plugin</artifactId>
+                            <version>2.5.3</version>
+                            <configuration>
+                                <autoVersionSubmodules>true</autoVersionSubmodules>
+                                <tagNameFormat>v@{project.version}</tagNameFormat>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
