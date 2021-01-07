@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2014-2019 SgrAlpha
+  ~ Copyright (C) 2014-2021 SgrAlpha
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -13,7 +13,7 @@
   ~ GNU General Public License for more details.
   ~
   ~ You should have received a copy of the GNU General Public License
-  ~ along with this program.  If not, see <http://www.gnu.org/licenses />.
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   ~
   -->
 
@@ -58,22 +58,22 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dep.guava.version>27.1-jre</dep.guava.version>
-        <dep.jackson.version>2.9.8</dep.jackson.version>
+        <dep.guava.version>30.1-jre</dep.guava.version>
+        <dep.jackson.version>2.12.0</dep.jackson.version>
         <dep.jwt.version>0.9.1</dep.jwt.version>
 
         <!-- For http/rest -->
-        <dep.retrofit.version>2.5.0</dep.retrofit.version>
-        <dep.okhttp.version>3.13.1</dep.okhttp.version>
+        <dep.retrofit.version>2.9.0</dep.retrofit.version>
+        <dep.okhttp.version>4.9.0</dep.okhttp.version>
 
         <!-- For logging -->
-        <dep.slf4j.version>1.7.25</dep.slf4j.version>
-        <dep.log4j2.version>2.11.2</dep.log4j2.version>
+        <dep.slf4j.version>1.7.30</dep.slf4j.version>
+        <dep.log4j2.version>2.14.0</dep.log4j2.version>
         <dep.commons-logging.version>1.2</dep.commons-logging.version>
 
         <!-- For tests -->
-        <dep.junit.version>4.12</dep.junit.version>
-        <dep.mockito.version>2.17.0</dep.mockito.version>
+        <dep.junit.version>4.13.1</dep.junit.version>
+        <dep.mockito.version>2.28.2</dep.mockito.version>
     </properties>
 
     <dependencyManagement>
